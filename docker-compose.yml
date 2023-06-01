@@ -1,0 +1,56 @@
+version: '3'
+services:
+  mysql_db:
+    image: mysql # lấy image từ hub.docker.com về cài đặt
+    container_name: mysql_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234 
+      - MYSQL_DATABASE=db_task
+    ports:
+      - 3307:3306
+    volumes:
+      - mysql_db:/var/lib/mysql
+    networks:
+      - node-network
+  app:
+    depends_on:
+      - mysql_db
+    build: .
+    container_name: cons-node
+    environment:
+      - DATABASE_URL=mysql://root:1234@mysql_db:3307/db_task?schema=public
+      - SECRET_KEY=NODE30
+    ports:
+      - 3200:8080
+    networks:
+      - node-network
+volumes:
+  mysql_db:
+    driver: local
+networks:
+  node-network:
+    # docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=1234 mysql
+    # container node BE
+
+    # docker build . -t img-node
+    # docker-compose up -d
+
+
+
+
+    # npx proxy manager thu vien giup map subdomain voi dia chi ip cua vps
+#version: '3.8'
+# services:
+#   app:
+#     image: 'jc21/nginx-proxy-manager:latest'
+#     restart: unless-stopped
+#     ports:
+#       - '80:80'
+#       - '81:81'
+#       - '443:443'
+#     volumes:
+#       - ./data:/data
+#       - ./letsencrypt:/etc/letsencrypt
+# scp ten file root@dia chi vps copy file o may minh len vps
+# apt install docker-compose
+#docker compose up -d

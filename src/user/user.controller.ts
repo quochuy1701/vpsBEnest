@@ -17,7 +17,7 @@ import { FileUploadDto } from './dto/user.dto';
 // yarn prisma generate
 
 // localhost:8080/user/get-user
-@ApiTags("user")
+@ApiTags("user")// phan oject tren swagger
 @Controller('/user')
 export class UserController {
     constructor(
